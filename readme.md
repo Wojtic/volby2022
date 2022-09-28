@@ -1,0 +1,1 @@
+seznammandatu.py hotov, staci zmenit MANDATY a inputarray za spravne hodnoty a v KONECNEPORADI lze jednoduse zjistit vsechny uspesne kandidaty. Prosim Vojtu o dodelani main.py a zkombinovani DEKUJI.
