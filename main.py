@@ -2,6 +2,8 @@ SOUBOR = open("kandidatka.txt", "r")
 MANDATY = 15
 
 
+# Načte kandidátku ze souboru ve formátu
+# [("Jméno strany", ["1. Jméno kandidáta", "2. Jméno kandidáta"]), ("Jméno strany", ["1. Jméno kandidáta", "2. Jméno kandidáta"])]
 def nacti_kandidatku(soubor):
     kandidatka = []
     strana_jmeno = ""
@@ -18,6 +20,10 @@ def nacti_kandidatku(soubor):
     return kandidatka
 
 
+# Postupně ukáže voličovi celou kandidátku a zeptá se, kterým kandidátům/stranám chce dát křížek.
+# Kontroluje, že nerozdá více křížků, než je mandátů apod.
+# Vrací seznam ve formátu:
+# [("Jméno strany", [True, True, False, False, True]), ("Jméno strany", [False, True, True, False, True])]
 def zpracuj_volice(kandidatka, MANDATY):
     volic = []
     zakrizkoval_stranu = False
@@ -54,6 +60,8 @@ def zpracuj_volice(kandidatka, MANDATY):
     return upravene_strany
 
 
+# Vezme seznam obsahující seznami vrácené funkcí zpracuj_volice.
+# Vrátí seznam stran obsahující jméno strany, počet hlasů pro stranu celkem a počet hlasů pro každého kandidáta (i se jménem).
 def secti_strany(volici, kandidatka):
     hlasy = kandidatka.copy()
     for i in range(len(hlasy)):
@@ -70,12 +78,14 @@ def secti_strany(volici, kandidatka):
     return [(strana[0], sum(map(lambda x: x[1], strana[1])), strana[1]) for strana in hlasy]
 
 
+# Odstraní strany, které nedosáhly 5 % celkových hlasů. Pokud zbyde jenom 1 strana, přídá 2.
 def odstran_pod_5_procent(strany, hlasy_celkem):
     serazene_strany = sorted(strany, key=lambda x: x[1], reverse=True)
     strany = list(filter(lambda x: x[1] > hlasy_celkem*0.05, serazene_strany))
     return strany if len(strany) > 1 else serazene_strany[:2]
 
 
+# Ke každé straně přidá na 4. místo počet mandátů, které dostal podle D'Hondtovy metody.
 def dhondtova_metoda(hlasy, MANDATY):
     mandaty_stran = [0] * len(hlasy)
     nezmene_hlasy = hlasy.copy()
@@ -88,6 +98,7 @@ def dhondtova_metoda(hlasy, MANDATY):
     return [(nezmene_hlasy[i][0], nezmene_hlasy[i][1], nezmene_hlasy[i][2], mandaty_stran[i]) for i in range(len(hlasy))]
 
 
+# Seřadí kandidáty v každé straně - ty, kteří dostali nad 110 %, dá na začátek ve správném pořadí.
 def serad_strany(strany):
     nove_strany = []
     for strana in strany:
@@ -106,6 +117,7 @@ def serad_strany(strany):
     return nove_strany
 
 
+# Vezme z každé strany tolik kandidátů, kolik dostala mandátů.
 def vygeneruj_vysledky(strany):
     vysledky = []
     for strana in strany:
@@ -116,6 +128,7 @@ def vygeneruj_vysledky(strany):
     return vysledky
 
 
+# Sečte hlasy z funkcí zpracuj_volice a vypíše do konzole.
 def zpracuj_vsechny_volice(kandidatka, MANDATY):
     volici = []
     while True:
@@ -134,6 +147,7 @@ def zpracuj_vsechny_volice(kandidatka, MANDATY):
     return strany
 
 
+# Dovolí zadat rovnou počet hlasů pro každého kandidáta, tažke není třeba používat funkci zpracuj_volice.
 def zpracuj_zadani_souctu(kandidatka):
     volici = []
     for strana in kandidatka:
@@ -165,7 +179,7 @@ def main():
     else:
         strany = zpracuj_vsechny_volice(kandidatka, MANDATY)
 
-    hlasy_celkem = sum(map(lambda x: x[1], strany))
+    hlasy_celkem = sum(map(lambda x: x[1], strany))  # sečte všechny hlasy
     bez_5_procent = odstran_pod_5_procent(strany, hlasy_celkem)
 
     print("Strany po odstranění těch, které nedosáhly 5 %: ")
@@ -191,5 +205,6 @@ def main():
     return vysledky
 
 
+# Čistě Pythonovská věc
 if __name__ == "__main__":
     main()
