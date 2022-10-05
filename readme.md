@@ -1,4 +1,4 @@
-Možná dopíšu stránku, která nahradí manuální zadávání jednotlivých voličů z konzole, takže by např. třída mohla "odvolit", ale uvidím, jestli budu mít čas (a chuť). Všechny funkce jsou popsané v main.py v komentářích.
+Všechny funkce jsou popsané v main.py v komentářích.
 
 Pokud chcete soubor spustit, nainstalujte python a spusťte to přes něj (chtěl jsem přiložit odkaz na online interpreter, ale kandidatka se načítá ze souboru, což online nejde).
 
