@@ -1,4 +1,4 @@
-SOUBOR = open("kandidatka.txt", "r")
+SOUBOR = open("kandidatka.txt", "r", encoding="utf8")
 MANDATY = 15
 
 
@@ -166,7 +166,7 @@ def zpracuj_zadani_souctu(kandidatka):
                 except:
                     print("Počet hlasů musí být nezáporné celé číslo.")
         volici.append((strana[0], sum(map(lambda x: x[1], hlasy)), hlasy))
-        print()
+        print("Celkem hlasů pro stranu: " + str(sum(map(lambda x: x[1], hlasy))) + "\n")
     return volici
 
 
